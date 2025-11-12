@@ -12,6 +12,7 @@ build/
 .project
 .settings
 .env
+application-dev.yml
 .springBeans
 .sts4-cache
 bin/
