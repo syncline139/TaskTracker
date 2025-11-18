@@ -1,7 +1,6 @@
 package com.tasktracker.backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,19 +14,23 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "refresh_tokens")
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
-    @Column(name = "email")
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "token")
+    private String refreshToken;
+
+    @Column(name = "expires_at")
+    @CreationTimestamp
+    private Timestamp expiresAt;
 
     @Column(name = "created_at")
     @CreationTimestamp

@@ -2,10 +2,10 @@ package com.tasktracker.backend.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class Mapper {
+@Configuration
+public class MapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS users (
 --changeset Dmitry 0xErr:2
 
 CREATE TABLE IF NOT EXISTS refresh_tokens (
-    user_id BIGINT PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     token VARCHAR(512) NOT NULL,
     expires_at TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT now(),

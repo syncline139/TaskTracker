@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: task-tracker-backend
+  jwt:
+    secret:
+    tokenlifetime: 1440 # -> 1 day | only Minutes
+    refreshtokenlifetime: 44640 # -> 31 day | only Minutes
+  jpa:
+    show-sql: true

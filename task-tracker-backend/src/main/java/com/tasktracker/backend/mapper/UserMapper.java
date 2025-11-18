@@ -4,7 +4,6 @@ import com.tasktracker.backend.dto.request.UserDto;
 import com.tasktracker.backend.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,5 +19,4 @@ public class UserMapper {
     public User convertUserDtoToUser(UserDto userDto) {
         return modelMapper.map(userDto, User.class);
     }
-
 }

@@ -1,12 +1,18 @@
 package com.tasktracker.backend.dto.request;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record UserDto(
-        @Email
-        String email,
-        @Size(min = 5, max = 30, message = "min 5 max 30")
-        @NotNull(message = "Введите пароль")
-        String password) {}
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDto {
+    @Email
+    private String email;
+
+    private String password;
+}
