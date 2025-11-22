@@ -17,7 +17,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/user")
+    @PostMapping("/sign-up")
     public ResponseEntity<JwtAuthenticationDto> registration(@RequestBody UserDto userDto) {
 
         JwtAuthenticationDto jwtAuthenticationDto = authService.singIn(userDto);

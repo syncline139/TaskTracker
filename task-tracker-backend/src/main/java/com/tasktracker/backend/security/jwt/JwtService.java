@@ -23,8 +23,6 @@ public class JwtService {
 
     @Value("${spring.jwt.secret}")
     private String jwtSecret;
-    private final JwtRepository jwtRepository;
-    private final JwtMapper jwtMapper;
     @Value("${spring.jwt.tokenlifetime}")
     private Long tokenLifetime;
     @Value("${spring.jwt.refreshtokenlifetime}")

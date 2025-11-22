@@ -9,11 +9,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_URL:      jdbc:postgresql://db:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
   # postgres
@@ -23,8 +24,8 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_NAME:      ${POSTGRES_NAME}
-      POSTGRES_USERNAME:  ${POSTGRES_USERNAME}
+      POSTGRES_NAME:      ${POSTGRES_DB}
+      POSTGRES_USERNAME:  ${POSTGRES_USER}
       POSTGRES_PASSWORD:  ${POSTGRES_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql

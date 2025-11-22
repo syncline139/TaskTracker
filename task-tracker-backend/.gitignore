@@ -35,6 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
-
+.env
 application-dev.yml
 application.yml
