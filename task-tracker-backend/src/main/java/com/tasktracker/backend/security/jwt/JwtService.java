@@ -1,13 +1,11 @@
 package com.tasktracker.backend.security.jwt;
 
 import com.tasktracker.backend.dto.request.JwtAuthenticationDto;
-import com.tasktracker.backend.mapper.JwtMapper;
-import com.tasktracker.backend.repository.JwtRepository;
+import com.tasktracker.backend.properties.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -21,25 +19,19 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtService {
 
-    @Value("${spring.jwt.secret}")
-    private String jwtSecret;
-    @Value("${spring.jwt.tokenlifetime}")
-    private Long tokenLifetime;
-    @Value("${spring.jwt.refreshtokenlifetime}")
-    private Long refreshTokenLifetime;
-
+    private final JwtProperties jwtProperties;
 
     public JwtAuthenticationDto generatedAuthToken(String email){
         JwtAuthenticationDto jwtDto = new JwtAuthenticationDto();
-        jwtDto.setToken(generatedJwtToken(email));
+        jwtDto.setAccessToken(generatedAccessToken(email));
         jwtDto.setRefreshToken(generatedRefreshToken(email));
 
         return jwtDto;
     }
 
-    public JwtAuthenticationDto refreshBaseToken(String email, String refreshToken) {
+    public JwtAuthenticationDto refreshAccessToken(String email, String refreshToken) {
         JwtAuthenticationDto jwtDto = new JwtAuthenticationDto();
-        jwtDto.setToken(generatedJwtToken(email));
+        jwtDto.setAccessToken(generatedAccessToken(email));
         jwtDto.setRefreshToken(refreshToken);
         return jwtDto;
 
@@ -77,8 +69,8 @@ public class JwtService {
     }
 
 
-    private String generatedJwtToken(String email) {
-        Date date = Date.from(LocalDateTime.now().plusMinutes(tokenLifetime).atZone(ZoneId.systemDefault()).toInstant());
+    private String generatedAccessToken(String email) {
+        Date date = Date.from(LocalDateTime.now().plusMinutes(jwtProperties.getAccessTokenLifeTime()).atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .subject(email)
                 .expiration(date)
@@ -87,7 +79,7 @@ public class JwtService {
     }
 
     private String generatedRefreshToken(String email) {
-        Date date = Date.from(LocalDateTime.now().plusMinutes(refreshTokenLifetime).atZone(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(LocalDateTime.now().plusMinutes(jwtProperties.getRefreshTokenLifeTime()).atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .subject(email)
                 .expiration(date)
@@ -96,6 +88,6 @@ public class JwtService {
     }
 
     private SecretKey getSingInKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
     }
 }
