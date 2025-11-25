@@ -13,6 +13,7 @@ import com.tasktracker.backend.service.AuthService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         if (refreshToken.isPresent()) {
             return jwtService.refreshAccessToken(userDto.getEmail(), refreshToken.get().getRefreshToken());
         }
-        throw new RuntimeException("");
+        throw new UsernameNotFoundException("Пользователя с почтой: %s не существует".formatted(userDto.getEmail()));
     }
 
 }
