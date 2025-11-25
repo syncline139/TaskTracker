@@ -17,15 +17,17 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<JwtAuthenticationDto> signUp(@RequestBody UserDto userDto) {
 
-        JwtAuthenticationDto jwtAuthenticationDto = authService.singIn(userDto);
+        JwtAuthenticationDto jwtAuthenticationDto = authService.singUp(userDto);
 
         return ResponseEntity.ok(jwtAuthenticationDto);
     }
 
     @GetMapping("/sign-in")
-    public ResponseEntity<JwtAuthenticationDto> signIn() {
+    public ResponseEntity<String> signIn(@RequestBody UserDto userDto) {
 
-        return null;
+        JwtAuthenticationDto jwtAuthenticationDto = authService.singIn(userDto);
+
+        return ResponseEntity.ok(jwtAuthenticationDto.getAccessToken());
     }
 
     @PostMapping("/logout")

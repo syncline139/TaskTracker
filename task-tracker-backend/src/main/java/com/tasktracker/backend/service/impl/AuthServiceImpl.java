@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Primary
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public JwtAuthenticationDto  singIn(UserDto userDto) {
+    public JwtAuthenticationDto singUp(UserDto userDto) {
         User user = userMapper.convertUserDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -43,6 +45,16 @@ public class AuthServiceImpl implements AuthService {
         jwtRepository.save(refreshToken);
 
         return jwtDto;
+    }
+
+    @Override
+    //todo
+    public JwtAuthenticationDto singIn(UserDto userDto) {
+        Optional<RefreshToken> refreshToken = jwtRepository.findRefreshTokenByEmail(userDto.getEmail());
+        if (refreshToken.isPresent()) {
+            return jwtService.refreshAccessToken(userDto.getEmail(), refreshToken.get().getRefreshToken());
+        }
+        throw new RuntimeException("");
     }
 
 }

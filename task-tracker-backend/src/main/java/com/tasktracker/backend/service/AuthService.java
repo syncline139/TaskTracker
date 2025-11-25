@@ -4,5 +4,7 @@ import com.tasktracker.backend.dto.request.JwtAuthenticationDto;
 import com.tasktracker.backend.dto.request.UserDto;
 
 public interface AuthService {
-    JwtAuthenticationDto singIn(UserDto user);
+    JwtAuthenticationDto singUp(UserDto userDto);
+    JwtAuthenticationDto singIn(UserDto userDto);
+
 }
