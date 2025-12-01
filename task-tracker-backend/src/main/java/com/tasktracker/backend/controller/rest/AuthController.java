@@ -22,16 +22,25 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthenticationDto);
     }
 
+    // todo проверять активный ли рефреш токен, и если нет когда генерить новый
+    //  и добавлять его в БД для последующей генерации аксес токена
     @GetMapping("/sign-in")
-    public ResponseEntity<String> signIn(@RequestBody UserDto userDto) {
+    public ResponseEntity<JwtAuthenticationDto> signIn(@RequestBody UserDto userDto) {
 
         JwtAuthenticationDto jwtAuthenticationDto = authService.singIn(userDto);
 
-        return ResponseEntity.ok(jwtAuthenticationDto.getAccessToken());
+        return ResponseEntity.ok(jwtAuthenticationDto);
     }
 
+    // todo удалять рефреш токен
     @PostMapping("/logout")
     public void logout() {
 
     }
+
+//    @GetMapping("/refresh")
+//    public ResponseEntity<Void> r() {
+//
+//    }
+
 }
